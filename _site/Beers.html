@@ -245,7 +245,7 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="WelcomePage.html">Welcome</a>
+  <a href="WelcomePage.html">Welcome!</a>
 </li>
 <li>
   <a href="Beers.html">Beers</a>
@@ -302,7 +302,7 @@ ggplot(breweries_per_state, aes(x = reorder(State, -Brewery_Count), y = Brewery_
        y = &quot;Number of Breweries&quot;) +
   theme_minimal() +
   theme(axis.text.x = element_text(hjust = 1, size = 5))</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>The state with the most breweries is Colorado - with 47. We can see
 that there is a sharp drop in number of breweries soon afterwards, with
 most states having fewer than ten breweries. DC, The Dakotas, and West
@@ -374,7 +374,7 @@ library(naniar)
 
 #to visualize missing data we&#39;ll create a missingness heatmap:
 gg_miss_upset(merged_data)</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code>#this plot shows how many variables are missing from any column, and if any missing values overlap between columns
 
 #the plot shows - 1005 missing IBU, 62 of those are also missing ABV.
@@ -393,7 +393,7 @@ ggplot(beers, aes(x = ABV, y = IBU)) +
        y = &quot;IBU (International Bitterness Units)&quot;) +
   theme_minimal() + geom_miss_point()</code></pre>
 <pre><code>## Warning: Removed 1005 rows containing missing values (`geom_point()`).</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
 <pre class="r"><code>#Next, we must remove the missing ABV rows and Impute the median into the missing IBU values.
 
 # Filter out rows with NA in ABV and remove the is_missing_ABV and is_missing IBU columns
@@ -473,7 +473,7 @@ ggplot(median_ibu_per_state, aes(x = reorder(State, -Median_IBU), y = Median_IBU
        y = &quot;Median IBU&quot;) +
   theme_minimal() +
   theme(axis.text.x = element_text(hjust = 1, size = 5))</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <pre class="r"><code>#ABV by state - creating a dataframe of states and their median ABVs
 median_abv_per_state &lt;- merged_data_adjusted %&gt;% 
   group_by(State) %&gt;% 
@@ -488,7 +488,7 @@ ggplot(median_abv_per_state, aes(x = reorder(State, -Median_ABV), y = Median_ABV
        y = &quot;Median ABV (%)&quot;) +
   theme_minimal() +
   theme(axis.text.x = element_text(hjust = 1, size = 5))</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-13-2.png" width="672" /></p>
 <p>The bar plots above reveal interesting information.</p>
 <p>The highest Median IBU (after adjusting the missing values) belonged
 to West Virginia, with a Median of approximately 58 IBUs. The lowest
@@ -553,7 +553,7 @@ ggplot(merged_data_adjusted, aes(x = ABV)) +
        x = &quot;ABV (Alcohol by Volume)&quot;,
        y = &quot;Frequency&quot;) +
   theme_minimal()</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>The mean beer in the data set has an alcohol content of 5.98%, and
 the median has an alcohol content of 5.6%. Considering that the mean is
 slightly larger than the median, as well as the histogram, we can see
@@ -571,7 +571,7 @@ ggplot(merged_data_adjusted, aes(x = ABV, y = IBU)) + geom_point() +
        x = &quot;ABV (Alcohol by Volume)&quot;,
        y = &quot;IBU (International Bitterness Units)&quot;) +
        theme_minimal()</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <pre class="r"><code>#there is visual evidence of a linear relationship
 #note the largely horizontal line  of points at 35, this is from our imputed data</code></pre>
 <p>Based on the plotting of Alcohol By Volume (ABV) and International
@@ -612,11 +612,17 @@ plot &lt;- ggplot(filtered_data, aes(x = ABV, y = IBU, color = as.factor(categor
   theme_minimal()  + labs(color = &quot;Category&quot;)
 
 plot</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <pre class="r"><code>library(class) #this library is used for knn evaluation
 library(e1071)
-library(caret) # for model evaluation
-library(tidyverse)
+library(caret) # for model evaluation</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## 
+## Attaching package: &#39;caret&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     lift</code></pre>
+<pre class="r"><code>library(tidyverse)
 
 
 set.seed(4) #setting an initial seed before running through multiple seeds - for reproducibility
@@ -672,7 +678,7 @@ hist(knn_accuracies, main = &quot;KNN Accuracies Histogram&quot;, xlab = &quot;A
 
 # Add a vertical line at the average KNN accuracy
 abline(v = avg_knn_accuracy, col = &quot;red&quot;, lwd = 2)</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
 <p>After filtering the data to only include IPAs and other Ales, we
 aksed the question: could we determine if an ale is an IPA based on its
 ABV and IBU?</p>
@@ -719,7 +725,7 @@ cor.test(merged_data$ABV, merged_data$IBU, method=&quot;pearson&quot;)</code></p
   labs(title=&quot;Density Plot of ABV vs. IBU&quot;, x=&quot;ABV (%)&quot;, y=&quot;IBU&quot;) +
   scale_fill_viridis_c()</code></pre>
 <pre><code>## Warning: Removed 1005 rows containing non-finite values (`stat_bin2d()`).</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <pre class="r"><code>mean_ABV &lt;- mean(merged_data$ABV, na.rm=TRUE)
 mean_IBU &lt;- mean(merged_data$IBU, na.rm=TRUE)
 mean_ABV</code></pre>
@@ -789,7 +795,7 @@ plot &lt;- ggplot(filtered_data2, aes(x = ABV, y = IBU, color = as.factor(catego
   theme_minimal()  + labs(color = &quot;Category&quot;)
 
 plot</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <pre class="r"><code>set.seed(4)
 splitPerc = .70
 knn_accuracies &lt;- numeric(100)
@@ -840,7 +846,7 @@ hist(knn_accuracies, main = &quot;KNN Accuracies Histogram - Regression&quot;, x
 
 # Add a vertical line at the average KNN accuracy
 abline(v = avg_knn_accuracy, col = &quot;red&quot;, lwd = 2)</code></pre>
-<p><img src="Beers_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
+<p><img src="Beers_files/figure-html/unnamed-chunk-19-2.png" width="672" /></p>
 <p>Utilizing AI (specifically ChatGPT), as well as supplemental
 statistics knowledge, we thought of another way we could deal with
 missing IBU values, as well as perform the machine learning model again

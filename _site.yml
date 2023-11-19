@@ -2,7 +2,7 @@ name: "my-website"
 navbar:
   title: "Pages:"
   left:
-    - text: "Welcome!"
+    - text: "Welcome"
       href: WelcomePage.html
     - text: "Beers"
       href: Beers.html
