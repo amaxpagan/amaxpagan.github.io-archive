@@ -3,6 +3,6 @@ navbar:
   title: "Pages:"
   left:
     - text: "Welcome"
-      href: WelcomePage.html
+      href: index.html
     - text: "Beers"
       href: Beers.html
