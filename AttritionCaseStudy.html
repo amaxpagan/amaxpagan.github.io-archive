@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Max Pagan" />
+
+<meta name="date" content="2023-12-06" />
+
+<title>Case Study 2</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/darkly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Pages:</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Welcome</a>
+</li>
+<li>
+  <a href="Beers.html">Beers</a>
+</li>
+<li>
+  <a href="AmesProject.html">Ames Advanced Regression</a>
+</li>
+<li>
+  <a href="AttritionCaseStudy.html">Attrition Case Study</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Case Study 2</h1>
+<h4 class="author">Max Pagan</h4>
+<h4 class="date">2023-12-06</h4>
+
+</div>
+
+
+<div id="ddsanalytics-case-study" class="section level2">
+<h2>DDSAnalytics Case Study</h2>
+<p><a href="https://youtu.be/znxO6Q0A8sI">Link to YouTube video of
+presentation</a></p>
+<div id="introduction" class="section level3">
+<h3>Introduction</h3>
+<p>DDSAnalytics, a company that provides unique data-driven insights to
+Fortune 100 companies, is attempting to gain a unique advantage over the
+competition by using data science, statistics, and machine learning
+techniques to predict attrition, or if an employee will leave their
+position. This project will aim to predict attrition accurately by first
+conducting a thorough analysis of the available information to determine
+which factors contribute the most to attrition. Next, the project aims
+to create a supervised machine learning model to predict attrition.
+Finally, the project aims to provide additional insights into other
+aspects of the data, such as job role specific trends, and another
+supervised machine learning model to predict an employee’s monthly
+income with significant accuracy.</p>
+</div>
+<div id="cleaning-data-and-eda" class="section level3">
+<h3>Cleaning Data and EDA</h3>
+<pre class="r"><code>#loading the data
+data &lt;- read.csv(&quot;~/Downloads/CaseStudy2-data.csv&quot;)
+library(ggplot2)
+library(dplyr)
+# Function to calculate the number of unique instances in a column
+count_unique &lt;- function(column) {
+  n_distinct(column)
+}
+
+# Apply the function to each column in the dataset
+unique_counts &lt;- sapply(data, count_unique)
+
+# Print the results
+print(unique_counts)</code></pre>
+<pre><code>##                       ID                      Age                Attrition           BusinessTravel 
+##                      870                       43                        2                        3 
+##                DailyRate               Department         DistanceFromHome                Education 
+##                      627                        3                       29                        5 
+##           EducationField            EmployeeCount           EmployeeNumber  EnvironmentSatisfaction 
+##                        6                        1                      870                        4 
+##                   Gender               HourlyRate           JobInvolvement                 JobLevel 
+##                        2                       71                        4                        5 
+##                  JobRole          JobSatisfaction            MaritalStatus            MonthlyIncome 
+##                        9                        4                        3                      826 
+##              MonthlyRate       NumCompaniesWorked                   Over18                 OverTime 
+##                      852                       10                        1                        2 
+##        PercentSalaryHike        PerformanceRating RelationshipSatisfaction            StandardHours 
+##                       15                        2                        4                        1 
+##         StockOptionLevel        TotalWorkingYears    TrainingTimesLastYear          WorkLifeBalance 
+##                        4                       39                        7                        4 
+##           YearsAtCompany       YearsInCurrentRole  YearsSinceLastPromotion     YearsWithCurrManager 
+##                       32                       19                       16                       17</code></pre>
+<pre class="r"><code>data &lt;- data[, !colnames(data) %in% c(&quot;Over18&quot;)]
+data &lt;- data[, !colnames(data) %in% c(&quot;EmployeeCount&quot;)]
+data &lt;- data[, !colnames(data) %in% c(&quot;StandardHours&quot;)]</code></pre>
+<p>After loading the data, necessary cleaning of the data and removal of
+redundancies is critical. Three variables were immediately found to be
+unhelpful: Over18, EmployeeCount, and StandardHours. For each entry in
+the dataset, these values were unchanged, so they will be able to
+provide no insight into the data. The columns will be therefore removed.
+Additionally, it appears the EmployeeNumber is just another form of ID,
+seeing as it has 870 unique entries. However without deeper background
+knowledge we cannot be certain that it is entirely random. It will
+remain in the dataset for now, but I will keep a close eye on it as I
+continue with the exploratory data analysis.</p>
+<p>The first step in accomplishing these laid out goals is to conduct an
+Exploratory Data Analysis (EDA). The EDA aims to introduce us to the
+data through the use of univariate and bivariate analysis, statistical
+tests, and visualizations. Because there were many variables in the
+data, I created two separate RShiny apps: one to visualize relationships
+between variables in the form of scatterplots separated by JobRole, and
+another to conduct appropriate two-sample t-tests to determine if there
+were statistically significant differences in the mean values of certain
+variables, like job satisfaction or monthly income, between the two
+groups of different Attrition outcomes (‘Yes’ meaning the employees left
+their position, ‘No’ meaning they did not leave their position). These
+two RShiny apps are linked below:</p>
+</div>
+<div id="rshiny-app-exploration" class="section level3">
+<h3>RShiny App Exploration</h3>
+<p><a href="https://amaxpagan.shinyapps.io/rshiny_cs2_eda/">RShiny for
+scatterplots based on JobRole</a></p>
+<p><a href="https://amaxpagan.shinyapps.io/rshiny_case_study_2/">RShiny
+for T-Tests based on Attrition</a></p>
+<p>Particular scatterplots of interest that were insightful in this EDA
+included a scatterplot of MonthlyIncome (Y-axis) vs. TotalWorkingYears
+(X-Axis). For all Job roles, this demonstrated a positive linear
+relationship. Another variable that demonstrated a largely positive
+linear relationship with monthly income was job level. By making the
+x-axis be ID, one can change the Y axis to visualize additional patterns
+between job roles. For example, changing the y axis to StockOptionLevel
+indicates that Sales Representatives, followed by human resources
+employees and managers, appear to have the lowest proportion of
+employees that have stock options higher than 0 or 1. Additionally, by
+separating the different Attrition levels by color, we can see that
+sales representatives appear to have a higher proportion of employees
+who laft their position. We will go further into this statistic later
+on.</p>
+<p>The second RShiny app provides statistical tests called T-Tests and
+their corresponding p-values. Using a 0.05 level of significance, we can
+determine that there are many variables who’s mean values are likely
+very different between employees who left and employees who didn’t for
+example, choosing MonthlyIncome for the y-axis gives an incredibly low
+p-value of 4.422*10^-6, which yields tremendous statistical significance
+to our findings, and a confidence interval of (-2760.22, -1114.21). We
+can interpret this by saying with 95% confidence that the mean monthly
+income of an employee who left is between 1,114 and 2,760 dollars lower
+than that of an employee who didn’t leave. This has strong implications
+of the ability for monthly income to predict employee attrition, seeing
+as there is overwhelming evidence for a concrete difference between the
+incomes of employees who left vs those who stayed. Other variables that
+provided statistically significant p-values when comparing between
+employees who left and employees who stayed were: Age, DistanceFromHome,
+EnvironmentSatisfaction, JobInvolvement, JobLevel, JobSatisfaction,
+StockOptionLevel, TotalWorkingYears, WorkLifeBalance, YearsAtCompany,
+YearsInCurrentRole, and YearsWithCurrManager. By conducting these
+t-tests, and ensuring that these variables have statistically
+significant differences in their means between the two groups of
+employees, we are able to determine which variables are actually able to
+help us predict attrition.</p>
+<p>(Note: The RShiny app also provides a ratio of standard deviations of
+the variable in each question, and uses that ratio to determine if it
+will conduct a student’s t test of the ratio is close to 1, or a welch’s
+t test if the ratio is greater than 2 or less than 0.5. Also, the data
+for each variable contains normal distributions and/or groups that are
+large enough for the central limit theorem to apply. These statements
+mean that for all possible t-tests conducted by the RShiny app, the
+necessary assumptions of a t-test will be reasonably met.)</p>
+</div>
+<div id="eda-continued" class="section level3">
+<h3>EDA Continued</h3>
+<p>After looking at the RShiny apps, there are a few variables that
+remain that cannot be analyzed with a t-test because of their
+categorical nature, but might still impact our ability to predict
+attrition. These variables are JobRole, MaritalStatus, OverTime, Gender,
+EducationField, Department, and BusinessTravel. In order to determine
+these variables’ efficacy in predicting attrition, we will look at the
+percentages of Attrition = Yes for each factor among these variables.
+The code to do so is below:</p>
+<pre class="r"><code>percentage_yes_by_department &lt;- data %&gt;%
+  group_by(Department, Attrition) %&gt;%
+  summarize(count = n()) %&gt;%
+  mutate(percentage = count / sum(count) * 100) %&gt;%
+  filter(Attrition == &quot;Yes&quot;) %&gt;%
+  select(Department, percentage)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;Department&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code># Print the result
+print(percentage_yes_by_department)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+## # Groups:   Department [3]
+##   Department             percentage
+##   &lt;chr&gt;                       &lt;dbl&gt;
+## 1 Human Resources              17.1
+## 2 Research &amp; Development       13.3
+## 3 Sales                        21.6</code></pre>
+<pre class="r"><code>percentage_yes_by_role &lt;- data %&gt;%
+  group_by(JobRole, Attrition) %&gt;%
+  summarize(count = n()) %&gt;%
+  mutate(percentage = count / sum(count) * 100) %&gt;%
+  filter(Attrition == &quot;Yes&quot;) %&gt;%
+  select(JobRole, percentage)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;JobRole&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code># Print the result
+print(percentage_yes_by_role)</code></pre>
+<pre><code>## # A tibble: 9 × 2
+## # Groups:   JobRole [9]
+##   JobRole                   percentage
+##   &lt;chr&gt;                          &lt;dbl&gt;
+## 1 Healthcare Representative      10.5 
+## 2 Human Resources                22.2 
+## 3 Laboratory Technician          19.6 
+## 4 Manager                         7.84
+## 5 Manufacturing Director          2.30
+## 6 Research Director               1.96
+## 7 Research Scientist             18.6 
+## 8 Sales Executive                16.5 
+## 9 Sales Representative           45.3</code></pre>
+<pre class="r"><code>percentage_yes_by_gender &lt;- data %&gt;%
+  group_by(Gender, Attrition) %&gt;%
+  summarize(count = n()) %&gt;%
+  mutate(percentage = count / sum(count) * 100) %&gt;%
+  filter(Attrition == &quot;Yes&quot;) %&gt;%
+  select(Gender, percentage)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;Gender&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code># Print the result
+print(percentage_yes_by_gender)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+## # Groups:   Gender [2]
+##   Gender percentage
+##   &lt;chr&gt;       &lt;dbl&gt;
+## 1 Female       15.0
+## 2 Male         16.9</code></pre>
+<pre class="r"><code>percentage_yes_by_BusinessTravel &lt;- data %&gt;%
+  group_by(BusinessTravel, Attrition) %&gt;%
+  summarize(count = n()) %&gt;%
+  mutate(percentage = count / sum(count) * 100) %&gt;%
+  filter(Attrition == &quot;Yes&quot;) %&gt;%
+  select(BusinessTravel, percentage)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;BusinessTravel&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code># Print the result
+print(percentage_yes_by_BusinessTravel)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+## # Groups:   BusinessTravel [3]
+##   BusinessTravel    percentage
+##   &lt;chr&gt;                  &lt;dbl&gt;
+## 1 Non-Travel              11.7
+## 2 Travel_Frequently       22.2
+## 3 Travel_Rarely           15.2</code></pre>
+<pre class="r"><code>percentage_yes_by_EducationField &lt;- data %&gt;%
+  group_by(EducationField, Attrition) %&gt;%
+  summarize(count = n()) %&gt;%
+  mutate(percentage = count / sum(count) * 100) %&gt;%
+  filter(Attrition == &quot;Yes&quot;) %&gt;%
+  select(EducationField, percentage)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;EducationField&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code># Print the result
+print(percentage_yes_by_EducationField)</code></pre>
+<pre><code>## # A tibble: 6 × 2
+## # Groups:   EducationField [6]
+##   EducationField   percentage
+##   &lt;chr&gt;                 &lt;dbl&gt;
+## 1 Human Resources        26.7
+## 2 Life Sciences          14.8
+## 3 Marketing              20  
+## 4 Medical                13.7
+## 5 Other                  17.3
+## 6 Technical Degree       22.7</code></pre>
+<pre class="r"><code>percentage_yes_by_MaritalStatus &lt;- data %&gt;%
+  group_by(MaritalStatus, Attrition) %&gt;%
+  summarize(count = n()) %&gt;%
+  mutate(percentage = count / sum(count) * 100) %&gt;%
+  filter(Attrition == &quot;Yes&quot;) %&gt;%
+  select(MaritalStatus, percentage)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;MaritalStatus&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code># Print the result
+print(percentage_yes_by_MaritalStatus)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+## # Groups:   MaritalStatus [3]
+##   MaritalStatus percentage
+##   &lt;chr&gt;              &lt;dbl&gt;
+## 1 Divorced            6.28
+## 2 Married            14.1 
+## 3 Single             26.0</code></pre>
+<pre class="r"><code>percentage_yes_by_OverTime &lt;- data %&gt;%
+  group_by(OverTime, Attrition) %&gt;%
+  summarize(count = n()) %&gt;%
+  mutate(percentage = count / sum(count) * 100) %&gt;%
+  filter(Attrition == &quot;Yes&quot;) %&gt;%
+  select(OverTime, percentage)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;OverTime&#39;. You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code># Print the result
+print(percentage_yes_by_OverTime)</code></pre>
+<pre><code>## # A tibble: 2 × 2
+## # Groups:   OverTime [2]
+##   OverTime percentage
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 No             9.71
+## 2 Yes           31.7</code></pre>
+<p>This information is highly insightful, as it tells us which of these
+categorical variables will help our prediction of attrition. Looking at
+the above tables will show what the percentage of ‘Attrition = Yes’ was
+for each factor measured. One unique insight based on job role is that
+Sales Representatives are the most likely of all roles to leave their
+position, with a staggering 45% of employees in this role having an
+Attrition value of Yes. Another variable that seemed to have a stronger
+relationship with attrition was overtime, as employees who worked
+overtime were 31% likely to have left their position, compared to only
+9% of employees who didn’t work overtime. These percentages will prove
+useful in determining a model that will predict attrition.</p>
+</div>
+<div id="model-attempt-1-knn" class="section level3">
+<h3>Model attempt 1: KNN</h3>
+<p>Below is the first attempt at creating a supervised learning model to
+predict attrition. It is a k-nearest neighbor classifier model that only
+uses some of the most impactful continuous variables, and none of the
+categorical variables we just discussed. As the results will show, it
+was not particularly successful. It had a relatively high accuracy and
+sensitivity (true positive rate), but an incredibly low specificity
+(true negative rate), which seemed to persist no matter how many
+continuous variables I included from the dataset. The second model will
+make use of continuous and categorical variables to improve
+specificity.</p>
+<pre class="r"><code>selected_columns&lt;- c(&quot;JobInvolvement&quot;,&quot;TotalWorkingYears&quot;,&quot;JobLevel&quot;, &quot;Attrition&quot;)
+# Ensure that &quot;Attrition&quot; is at the back of the list
+selected_columns &lt;- c(selected_columns[setdiff(seq_along(selected_columns), which(selected_columns == &quot;Attrition&quot;))], &quot;Attrition&quot;)
+
+length &lt;- length(selected_columns)
+val &lt;- length - 1
+# Load necessary packages
+#if (!require(dplyr)) install.packages(&quot;dplyr&quot;)
+library(dplyr)
+library(caret)
+library(e1071)
+library(class)
+# Number of iterations
+num_iterations &lt;- 1000
+
+# Initialize vectors to store results
+accuracies &lt;- numeric(num_iterations)
+sensitivities &lt;- numeric(num_iterations)
+specificities &lt;- numeric(num_iterations)
+
+# Run the KNN model with different seeds
+for (i in 1:num_iterations) {
+  set.seed(i)
+  
+  # Create a subset of data with selected columns
+  subset_data &lt;- data[selected_columns]
+  
+  # Convert &#39;Attrition&#39; to a binary factor variable
+  subset_data$Attrition &lt;- factor(subset_data$Attrition, levels = c(&quot;Yes&quot;, &quot;No&quot;))
+  
+  # Create a training set (80%) and testing set (20%)
+  splitIndex &lt;- sample(1:nrow(subset_data), 0.8 * nrow(subset_data))
+  train_data &lt;- subset_data[splitIndex, ]
+  test_data &lt;- subset_data[-splitIndex, ]
+  
+  # Create the KNN model
+  k_value &lt;- 5  # You can adjust the value of &#39;k&#39;
+  knn_model &lt;- knn(train = train_data[, -4],  # Excluding the target variable &#39;Attrition&#39;
+                   test = test_data[, -4],   # Excluding the target variable &#39;Attrition&#39;
+                   cl = train_data$Attrition,
+                   k = k_value)
+  
+  # Confusion matrix
+  conf_matrix &lt;- table(Actual = test_data$Attrition, Predicted = knn_model)
+  
+  # Calculate accuracy
+  accuracies[i] &lt;- sum(diag(conf_matrix)) / sum(conf_matrix)
+  
+  # Calculate sensitivity (True Positive Rate/Recall)
+  sensitivities[i] &lt;- conf_matrix[2, 2] / sum(conf_matrix[2, ])
+  
+  # Calculate specificity (True Negative Rate)
+  specificities[i] &lt;- conf_matrix[1, 1] / sum(conf_matrix[1, ])
+}
+
+# Create a histogram of accuracies
+hist(accuracies, main = &quot;Histogram of Accuracies&quot;, xlab = &quot;Accuracy&quot;, col = &quot;lightblue&quot;, border = &quot;black&quot;)
+
+# Calculate mean sensitivity, mean specificity, and mean accuracy
+mean_sensitivity &lt;- mean(sensitivities)
+mean_specificity &lt;- mean(specificities)
+mean_accuracy &lt;- mean(accuracies)
+
+# Add a horizontal line at the mean of the histogram of accuracies
+abline(v = mean_accuracy, col = &quot;red&quot;, lty = 2)
+
+# Add a label for the horizontal line
+text(mean_accuracy, 50, labels = paste(&quot;Mean Accuracy:&quot;, round(mean_accuracy, 4)), col = &quot;red&quot;)</code></pre>
+<p><img src="AttritionCaseStudy_files/figure-html/knn-1.png" width="672" /></p>
+<pre class="r"><code># Print sensitivity and specificity
+print(paste(&quot;Mean Sensitivity (True Positive Rate):&quot;, mean_sensitivity))</code></pre>
+<pre><code>## [1] &quot;Mean Sensitivity (True Positive Rate): 0.985986632009736&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Mean Specificity (True Negative Rate):&quot;, mean_specificity))</code></pre>
+<pre><code>## [1] &quot;Mean Specificity (True Negative Rate): 0.0669697113157241&quot;</code></pre>
+</div>
+<div id="model-attempt-2-naive-bayes" class="section level3">
+<h3>Model attempt 2: Naive-Bayes</h3>
+<p>The second model is a Naive-Bayes classifier, which uses many of both
+the continuous and the categorical variables discussed above in the EDA.
+This model has a much higher specificity, and passes the required
+threshold of sensitivity and specificity both being above 0.60. We will
+use this model to predict the unknown values of attrition in the extra
+dataset below, and output those predictions to a csv file.</p>
+<pre class="r"><code>library(dplyr)
+library(caret)
+#selected_columns &lt;- setdiff(all_columns, columns_to_drop)
+selected_columns&lt;- c(&quot;JobRole&quot;,&quot;OverTime&quot;, &quot;MaritalStatus&quot;,&quot;BusinessTravel&quot;,&quot;Age&quot;,&quot;Gender&quot;,&quot;JobInvolvement&quot;,&quot;MonthlyIncome&quot;,&quot;TotalWorkingYears&quot;, &quot;JobLevel&quot;, &quot;YearsInCurrentRole&quot;,&quot;YearsWithCurrManager&quot;,&quot;YearsAtCompany&quot;, &quot;StockOptionLevel&quot;,&quot;WorkLifeBalance&quot;,&quot;JobSatisfaction&quot;,&quot;EnvironmentSatisfaction&quot;,&quot;DistanceFromHome&quot;,&quot;Attrition&quot;)
+# Ensure that &quot;Attrition&quot; is at the back of the list
+selected_columns &lt;- c(selected_columns[setdiff(seq_along(selected_columns), which(selected_columns == &quot;Attrition&quot;))], &quot;Attrition&quot;)
+
+library(e1071)
+# Initialize vectors to store results
+num_iterations &lt;- 1000
+accuracies &lt;- numeric(num_iterations)
+sensitivities &lt;- numeric(num_iterations)
+specificities &lt;- numeric(num_iterations)
+
+# Create a subset of data with selected columns
+subset_data &lt;- data[selected_columns]
+
+# Convert &#39;Attrition&#39; to a binary factor variable
+subset_data$Attrition &lt;- factor(subset_data$Attrition, levels = c(&quot;Yes&quot;, &quot;No&quot;))
+
+# Run the Naive Bayes model with different seeds
+for (i in 1:num_iterations) {
+  set.seed(i)
+  
+  # Create a subset of data with selected columns
+  subset_data &lt;- data[selected_columns]
+  
+  # Convert &#39;Attrition&#39; to a binary factor variable
+  subset_data$Attrition &lt;- factor(subset_data$Attrition, levels = c(&quot;Yes&quot;, &quot;No&quot;))
+  
+  # Split the data into training and testing sets
+  splitIndex &lt;- sample(1:nrow(subset_data), 0.8 * nrow(subset_data))
+  train_data &lt;- subset_data[splitIndex, ]
+  test_data &lt;- subset_data[-splitIndex, ]
+  
+  # Create the Naive Bayes model
+  nb_model &lt;- naiveBayes(Attrition ~ ., data = train_data)
+  
+  # Make predictions on the test set
+  predictions &lt;- predict(nb_model, newdata = test_data)
+  
+  # Confusion matrix
+  conf_matrix &lt;- table(Actual = test_data$Attrition, Predicted = predictions)
+  
+  # Calculate accuracy
+  accuracies[i] &lt;- sum(diag(conf_matrix)) / sum(conf_matrix)
+  
+  # Calculate sensitivity (True Positive Rate/Recall)
+  sensitivities[i] &lt;- conf_matrix[2, 2] / sum(conf_matrix[2, ])
+  
+  # Calculate specificity (True Negative Rate)
+  specificities[i] &lt;- conf_matrix[1, 1] / sum(conf_matrix[1, ])
+}
+
+# Calculate mean sensitivity, mean specificity, and mean accuracy
+mean_sensitivity &lt;- mean(sensitivities)
+mean_specificity &lt;- mean(specificities)
+mean_accuracy &lt;- mean(accuracies)
+
+# Print mean sensitivity, mean specificity, and mean accuracy
+print(paste(&quot;Mean Sensitivity (True Positive Rate):&quot;, round(mean_sensitivity, 4)))</code></pre>
+<pre><code>## [1] &quot;Mean Sensitivity (True Positive Rate): 0.8468&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Mean Specificity (True Negative Rate):&quot;, round(mean_specificity, 4)))</code></pre>
+<pre><code>## [1] &quot;Mean Specificity (True Negative Rate): 0.612&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Mean Accuracy:&quot;, round(mean_accuracy, 4)))</code></pre>
+<pre><code>## [1] &quot;Mean Accuracy: 0.8086&quot;</code></pre>
+<p>The below chunk will use the model we just created to predict
+attrition for the ‘No Attrition’ dataset and output those predictions to
+a CSV file.</p>
+<pre class="r"><code>set.seed(42)
+
+# Split the data into training and testing sets
+splitIndex &lt;- sample(1:nrow(subset_data), 0.8 * nrow(subset_data))
+train_data &lt;- subset_data[splitIndex, ]
+test_data &lt;- subset_data[-splitIndex, ]
+  
+# Create the Naive Bayes model
+nb_model &lt;- naiveBayes(Attrition ~ ., data = train_data)
+
+predictions &lt;- predict(nb_model, newdata = test_data)
+conf_matrix &lt;- table(Actual = test_data$Attrition, Predicted = predictions)
+
+accuracy_nb &lt;- sum(diag(conf_matrix)) / sum(conf_matrix)
+sensitivity_nb &lt;- conf_matrix[2, 2] / sum(conf_matrix[2, ])
+specificity_nb &lt;- conf_matrix[1, 1] / sum(conf_matrix[1, ])
+
+print(paste(&quot;Sensitivity of NB (seed = 42):&quot;, sensitivity_nb))</code></pre>
+<pre><code>## [1] &quot;Sensitivity of NB (seed = 42): 0.8&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Specificity of NB (seed = 42):&quot;, specificity_nb))</code></pre>
+<pre><code>## [1] &quot;Specificity of NB (seed = 42): 0.655172413793103&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;Accuracy of NB (seed = 42):&quot;, accuracy_nb))</code></pre>
+<pre><code>## [1] &quot;Accuracy of NB (seed = 42): 0.775862068965517&quot;</code></pre>
+<pre class="r"><code>#loading in the dataframe with no attrition
+no_attrition &lt;- read.csv(&quot;~/Downloads/CaseStudy2CompSet No Attrition (1).csv&quot;)
+
+#the same selected_columns as before, but this time without attrition
+selected_columns&lt;- c(&quot;JobRole&quot;,&quot;OverTime&quot;, &quot;MaritalStatus&quot;,&quot;BusinessTravel&quot;,&quot;Age&quot;,&quot;Gender&quot;,&quot;JobInvolvement&quot;,&quot;MonthlyIncome&quot;,&quot;TotalWorkingYears&quot;, &quot;JobLevel&quot;, &quot;YearsInCurrentRole&quot;,&quot;YearsWithCurrManager&quot;,&quot;YearsAtCompany&quot;, &quot;StockOptionLevel&quot;,&quot;WorkLifeBalance&quot;,&quot;JobSatisfaction&quot;,&quot;EnvironmentSatisfaction&quot;,&quot;DistanceFromHome&quot;)
+# Create a subset of &#39;no_attrition&#39; with selected columns
+subset_no_attrition &lt;- no_attrition[selected_columns]
+
+# Make predictions using the Naive Bayes model
+predictions_of_attrition &lt;- predict(nb_model, newdata = subset_no_attrition)
+
+# Creating a data frame with &quot;ID&quot; and predicted values
+output_data_attrition &lt;- data.frame(ID = no_attrition$ID, Attrition = predictions_of_attrition)
+
+# Write the data frame to a CSV file
+write.csv(output_data_attrition, file = &quot;predicted_attrition.csv&quot;, row.names = FALSE)
+# Print the confusion matrix
+print(&quot;Confusion Matrix:&quot;)</code></pre>
+<pre><code>## [1] &quot;Confusion Matrix:&quot;</code></pre>
+<pre class="r"><code>print(conf_matrix)</code></pre>
+<pre><code>##       Predicted
+## Actual Yes  No
+##    Yes  19  10
+##    No   29 116</code></pre>
+</div>
+<div id="linear-regression-for-income" class="section level3">
+<h3>Linear Regression for Income</h3>
+<p>The below chunk will use data we synthesized from the EDA to create a
+linear regression model that will predict monthly income. Based on the
+information we gathered above, the variables I will use to create this
+multiple linear regression are TotalWorkingYears and JobLevel, as they
+appeared to have the strongest visual linear relationship with income.
+One way to potentially improve this model would be to also include
+JobRole as an interaction term. However, the current model has a RMSE
+well below the 3,000 dollar threshold, so we will accept it for now. The
+model will output its prediction results to a csv.</p>
+<pre class="r"><code>no_income &lt;- read.csv(&quot;~/Downloads/CaseStudy2CompSet No Salary.csv&quot;)
+
+#setting seed again
+set.seed(42)
+#use 70% of dataset as training set and 30% as test set 
+train_data &lt;- data %&gt;% sample_frac(0.70)
+test_data  &lt;- anti_join(data, train_data, by = &#39;ID&#39;)
+# Create a Linear Regression model
+model &lt;- lm(MonthlyIncome ~ TotalWorkingYears + JobLevel, data = train_data)
+
+# Make predictions using the linear model for calculating RMSE
+predictions &lt;- predict(model)
+# Calculate residuals
+residuals &lt;- residuals(model)
+# Calculate RMSE
+rmse &lt;- sqrt(mean(residuals^2))
+# Print RMSE
+print(paste(&quot;Root Mean Square Error (RMSE):&quot;, round(rmse, 4)))</code></pre>
+<pre><code>## [1] &quot;Root Mean Square Error (RMSE): 1374.8737&quot;</code></pre>
+<pre class="r"><code>predictions_of_income &lt;- predict(model, newdata = no_income)
+
+# Creating a data frame with &quot;ID&quot; and predicted values
+output_data_income &lt;- data.frame(ID = no_income$ID, MonthlyIncome = predictions_of_income)
+
+# Write the data frame to a CSV file
+write.csv(output_data_income, file = &quot;predicted_income.csv&quot;, row.names = FALSE)</code></pre>
+</div>
+<div id="the-most-impactful-factors-on-attrition"
+class="section level3">
+<h3>The Most Impactful Factors on Attrition</h3>
+<p>In order to determine the three most impactful variables that impact
+attrition, I will create naive-bayes models and KNN models with one
+predictor variable at a time from the list in the existing model, and
+output an accuracy F1 score to a list. The f1 score of each variable
+will be ranked, and the three best F1 scores will be selected as the
+three most imporant variables for predicting attrition.</p>
+<pre class="r"><code>library(class)
+# List of variables
+candidate_variables &lt;- c(&quot;JobRole&quot;,&quot;OverTime&quot;, &quot;MaritalStatus&quot;,&quot;BusinessTravel&quot;,&quot;Age&quot;,&quot;Gender&quot;,&quot;JobInvolvement&quot;,&quot;MonthlyIncome&quot;,&quot;TotalWorkingYears&quot;, &quot;JobLevel&quot;, &quot;YearsInCurrentRole&quot;,&quot;YearsWithCurrManager&quot;,&quot;YearsAtCompany&quot;, &quot;StockOptionLevel&quot;,&quot;WorkLifeBalance&quot;,&quot;JobSatisfaction&quot;,&quot;EnvironmentSatisfaction&quot;,&quot;DistanceFromHome&quot;)
+
+# Initializing dataframe to store results
+variable_performance_1 &lt;- data.frame(Variable = character(), F1_Score = numeric(), stringsAsFactors = FALSE)
+variable_performance_2 &lt;- data.frame(Variable = character(), F1_Score = numeric(), stringsAsFactors = FALSE)
+
+# Loop through each candidate variable
+for (variable in candidate_variables) {
+  # Create a dataset with the current variable
+  current_data &lt;- data[, c(&quot;Attrition&quot;, variable), drop = FALSE]
+  
+  # Splitting the dataset into training and testing sets
+  set.seed(42)  # Setting seed for reproducibility
+  split_index &lt;- createDataPartition(current_data$Attrition, p = 0.7, list = FALSE)
+  train_data &lt;- current_data[split_index, ]
+  test_data &lt;- current_data[-split_index, ]
+  
+  test_data$Attrition &lt;- as.factor(test_data$Attrition)
+
+  # Train the Naive Bayes model
+  nb_model_2 &lt;- naiveBayes(Attrition ~ ., data = train_data)
+  
+  # Make predictions on the test set
+  predictions &lt;- predict(nb_model_2, newdata = test_data)
+  
+  # Evaluate model performance
+  confusion_matrix &lt;- table(Actual = test_data$Attrition, Predicted = predictions)
+  f1_score &lt;- confusion_matrix[2, 2]/(confusion_matrix[2, 2] + 0.5*(confusion_matrix[2, 1] + confusion_matrix[1, 2]))
+  
+  # Append results to the data frame
+  variable_performance_1 &lt;- rbind(variable_performance_1, c(variable, f1_score))
+}
+
+# Print the results
+print(variable_performance_1)</code></pre>
+<pre><code>##                 X.JobRole.            X.0.2.
+## 1                  JobRole               0.2
+## 2                 OverTime                 0
+## 3            MaritalStatus                 0
+## 4           BusinessTravel                 0
+## 5                      Age                 0
+## 6                   Gender                 0
+## 7           JobInvolvement 0.150943396226415
+## 8            MonthlyIncome                 0
+## 9        TotalWorkingYears                 0
+## 10                JobLevel                 0
+## 11      YearsInCurrentRole                 0
+## 12    YearsWithCurrManager                 0
+## 13          YearsAtCompany                 0
+## 14        StockOptionLevel                 0
+## 15         WorkLifeBalance                 0
+## 16         JobSatisfaction                 0
+## 17 EnvironmentSatisfaction                 0
+## 18        DistanceFromHome                 0</code></pre>
+<pre class="r"><code>#no categorical vars this time!
+candidate_variables_2 &lt;- c(&quot;Age&quot;,&quot;JobInvolvement&quot;,&quot;MonthlyIncome&quot;,&quot;TotalWorkingYears&quot;, &quot;JobLevel&quot;, &quot;YearsInCurrentRole&quot;,&quot;YearsWithCurrManager&quot;,&quot;YearsAtCompany&quot;, &quot;StockOptionLevel&quot;,&quot;WorkLifeBalance&quot;,&quot;JobSatisfaction&quot;,&quot;EnvironmentSatisfaction&quot;,&quot;DistanceFromHome&quot;)
+
+# Loop through each candidate variable
+for (variable in candidate_variables_2) {
+  # Create a dataset with the current variable
+  current_data &lt;- data[, c(variable, &quot;Attrition&quot;), drop = FALSE]
+  
+  # Splitting the dataset into training and testing sets
+  set.seed(42)  # Setting seed for reproducibility
+  split_index &lt;- createDataPartition(current_data$Attrition, p = 0.7, list = FALSE)
+  train_data &lt;- current_data[split_index, ]
+  
+  test_data &lt;- current_data[-split_index, ]
+  
+
+  # Train the Naive Bayes model
+  knn_model_2 &lt;- knn(train = train_data[,-2, drop = FALSE],  # Excluding the target variable &#39;Attrition&#39;
+                   test = test_data[,-2, drop = FALSE],   # Excluding the target variable &#39;Attrition&#39;
+                   cl = train_data$Attrition,
+                   k = 5)
+  
+  # Make predictions on the test set
+  predictions &lt;- knn_model_2
+  
+  # Evaluate model performance
+  confusion_matrix &lt;- table(Actual = test_data$Attrition, Predicted = predictions)
+  f1_score &lt;- confusion_matrix[2, 2]/(confusion_matrix[2, 2] + 0.5*(confusion_matrix[2, 1] + confusion_matrix[1, 2]))
+  
+  # Append results to the data frame
+  variable_performance_2 &lt;- rbind(variable_performance_2, c(variable, f1_score))
+}
+
+# Print the results
+print(variable_performance_2)</code></pre>
+<pre><code>##                     X.Age. X.0.0465116279069767.
+## 1                      Age    0.0465116279069767
+## 2           JobInvolvement     0.130434782608696
+## 3            MonthlyIncome                     0
+## 4        TotalWorkingYears                     0
+## 5                 JobLevel                     0
+## 6       YearsInCurrentRole                     0
+## 7     YearsWithCurrManager                     0
+## 8           YearsAtCompany                     0
+## 9         StockOptionLevel                     0
+## 10         WorkLifeBalance                     0
+## 11         JobSatisfaction                     0
+## 12 EnvironmentSatisfaction                     0
+## 13        DistanceFromHome    0.0416666666666667</code></pre>
+<p>Based on the data, it is clear that JobRole, JobInvolvement, and Age,
+in that order, are the only variables that can create an F1 score of
+higher than 0. This means that these are the only variables that have
+predictive power inherently, without the use of other variables. Other
+variables when used in combination become predictive, however given the
+inherent predictability of these three variables, DDSAnalytics would
+benefit greatly from paying careful attention to these specific
+variables with priority.</p>
+</div>
+<div id="conclusion" class="section level3">
+<h3>Conclusion</h3>
+<p>After conducting a thorough analysis of the data, and creating two
+models, one to predict attrition and another to predict monthly income,
+we can say we have a strong understanding of the many different factors
+that go into talent management. Using the tools available to us with
+statistics and data science, we can make the necessary predictions and
+connections to further our future goals, like improving employee
+retention.</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

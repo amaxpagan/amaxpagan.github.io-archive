@@ -8,3 +8,5 @@ navbar:
       href: Beers.html
     - text: "Ames Advanced Regression"
       href: AmesProject.html
+    - text: "Attrition Case Study"
+      href: AttritionCaseStudy.html
